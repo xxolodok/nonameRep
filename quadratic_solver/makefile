@@ -9,4 +9,4 @@ quadratic_test.o: quadratic_test.c
 quadratic_test: quadratic_test.o quadratic.a
 	gcc -g -o quadratic_test quadratic_test.o quadratic.a -lm
 
- 
+  

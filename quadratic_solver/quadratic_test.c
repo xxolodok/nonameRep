@@ -34,7 +34,7 @@ void quadratic_sover_test5() {
   long double test_arg2 = 3e-4;
   long double *roots = FindRootsQuadraticSolver(1, 0, -1e-7, eps, 4);
   assert((fabs(roots[0] - test_arg1)<eps) && (fabs(roots[1] - test_arg2)<eps));
-}
+} 
 void quadratic_sover_test6() {
   long double eps = 1e-11;
   long double test_arg1 = -1e-10;
@@ -57,7 +57,6 @@ int main() {
   quadratic_sover_test5();
   // quadratic_sover_test6();
   quadratic_sover_test7();
-  printf("Выходные\n");
 
   return 0;
 }

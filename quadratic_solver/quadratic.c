@@ -13,7 +13,7 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
   if (roots == NULL) {
     printf("Ошибка выделения памяти\n");
     return NULL;
-  }
+  } 
 
   // Проверка, что коэффициент a не равен нулю
   if (fabs(a) < eps) {

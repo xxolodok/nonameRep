@@ -37,7 +37,7 @@ NC = \033[0m # No Color
 TEST_TARGETS = $(shell find . -type f -name "*_test")
 
 # Фиктивная цель для запуска тестов
-.PHONY: test
+.PHONY: test 
 
 test:
 	@if [ -z "$(TEST_TARGETS)" ]; then \
