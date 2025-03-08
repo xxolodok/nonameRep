@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
  
 jobs: 
   build:
@@ -23,20 +21,15 @@ jobs:
 
       - name: Build project
         run: |
-          # Запуск make в корневом каталоге
           make all
-          # Поиск всех Makefile в поддиректориях и запуск make в каждой из них
           find . -name 'Makefile' -execdir make all \;
 
       - name: Run tests
         run: |
-          # Запуск тестов в корневом каталоге
           make test
-          # Поиск всех Makefile в поддиректориях и запуск тестов в каждой из них
           find . -name 'Makefile' -execdir make test \;
 
       - name: Check format
         run: |
           make check_fmt
-          # Поиск всех Makefile в поддиректориях и проверка форматирования в каждой из них
           find . -name 'Makefile' -execdir make check_fmt \;

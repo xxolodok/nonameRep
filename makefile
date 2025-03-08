@@ -28,15 +28,12 @@ fmt:
 
 TEST_TARGETS = $(wildcard *_test)
 
-# Цвета для вывода
 GREEN = \033[0;32m
 RED = \033[0;31m
-NC = \033[0m # No Color
+NC = \033[0m 
 
-# Поиск всех файлов с суффиксом _test
 TEST_TARGETS = $(shell find . -type f -name "*_test")
 
-# Фиктивная цель для запуска тестов
 .PHONY: test 
 
 test:
