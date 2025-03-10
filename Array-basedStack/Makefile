@@ -16,3 +16,5 @@ Array-basedStack_test: Array-basedStack_test.o Array-basedStack.a
 
 test: Array-basedStack_test
 	@./*_test
+
+.PHONY: all
