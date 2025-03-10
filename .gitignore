@@ -1,4 +1,4 @@
-Linked_List.a
-Linked_List_test.o
-Linked_List.o
+.vscode/*
+*.a
+*.o
 *_test
