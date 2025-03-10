@@ -1,5 +1,5 @@
-#ifndef ADD_H
-#define ADD_H
+#ifndef Array_basedStack_H
+#define Array_basedStack_H
 
 #define MAX 100
 
