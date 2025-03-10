@@ -1,5 +1,5 @@
-#ifndef ADD_H
-#define ADD_H
+#ifndef LL_H
+#define LL_H
 
 struct Node {
     int data;
