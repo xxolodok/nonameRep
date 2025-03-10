@@ -8,12 +8,10 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
                                       int roundEps) {
   long double *roots = (long double *)malloc(2 * sizeof(long double));
   if (roots == NULL) {
-    printf("Ошибка выделения памяти\n");
     return NULL;
   }
 
   if (fabs(a) < eps) {
-    printf("Коэффициент a не может быть равным нулю\n");
     free(roots);
     return NULL;
   }

@@ -7,6 +7,7 @@ void quadratic_sover_test() {
   long double eps = 1e-9;
   long double *roots = FindRootsQuadraticSolver(0, 1, 1, eps, 11);
   assert(roots == NULL);
+  printf("Тест 1 пройден");
   free(roots);
 }
 void quadratic_sover_test2() {
@@ -16,6 +17,7 @@ void quadratic_sover_test2() {
   long double *roots = FindRootsQuadraticSolver(1, 0, -1, eps, 11);
   assert((fabs(roots[0] - test_arg1) < eps) &&
          (fabs(roots[1] - test_arg2) < eps));
+  printf("Тест 2 пройден");
   free(roots);
 }
 void quadratic_sover_test3() {
@@ -25,12 +27,14 @@ void quadratic_sover_test3() {
   long double *roots = FindRootsQuadraticSolver(1, 0, -0, eps, 11);
   assert((fabs(roots[0] - test_arg1) < eps) &&
          (fabs(roots[1] - test_arg2) < eps));
+  printf("Тест 3 пройден");
   free(roots);
 }
 void quadratic_sover_test4() {
   long double eps = 1e-9;
   long double *roots = FindRootsQuadraticSolver(1, 0, 1, eps, 11);
   assert(roots == NULL); // null функция возвращает когда нет корней
+  printf("Тест 4 пройден");
   free(roots);
 }
 
@@ -41,6 +45,7 @@ void quadratic_sover_test5() {
   long double *roots = FindRootsQuadraticSolver(1, 0, -1e-7, eps, 4);
   assert((fabs(roots[0] - test_arg1) < eps) &&
          (fabs(roots[1] - test_arg2) < eps));
+  printf("Тест 5 пройден");
   free(roots);
 }
 void quadratic_sover_test6() {
@@ -50,6 +55,7 @@ void quadratic_sover_test6() {
   long double *roots = FindRootsQuadraticSolver(1, -1e+10, -1, eps, 11);
   assert((fabs(roots[0] - test_arg1) < eps) &&
          (fabs(roots[1] - test_arg2) < eps));
+  printf("Тест 6 пройден");
   free(roots);
 }
 void quadratic_sover_test7() {
@@ -59,6 +65,7 @@ void quadratic_sover_test7() {
   long double *roots = FindRootsQuadraticSolver(1, 0, -1e-8, eps, 7);
   assert((fabs(roots[0] - test_arg1) < eps) &&
          (fabs(roots[1] - test_arg2) < eps));
+  printf("Тест 7 пройден");
   free(roots);
 }
 int main() {
