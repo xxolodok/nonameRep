@@ -21,15 +21,13 @@ jobs:
 
       - name: Build project
         run: |
-          make all
           find . -name 'makefile' -execdir make all \;
+          make all
 
       - name: Run tests
         run: |
           make test
-          find . -name 'makefile' -execdir make test \;
 
       - name: Check format
         run: |
           make check_fmt
-          find . -name 'makefile' -execdir make check_fmt \;
