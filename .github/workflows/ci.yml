@@ -18,7 +18,7 @@ jobs:
 
       - name: Build project
         run: |
-          find . -mindepth 2 -name 'makefile' -execdir make all \;
+          find . -mindepth 2 -name 'Makefile' -execdir make all \;
 
       - name: Run tests
         run: |
