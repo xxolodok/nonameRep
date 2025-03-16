@@ -17,17 +17,17 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
 
       - name: Build project
-        run: make -C Array-basedStack all
+        run: make -C Definite_integral all
 
       - name: Run tests
-        run: make -C Array-basedStack test
+        run: make -C Definite_integral test
 
       - name: Check format
-        run: make -C Array-basedStack check_fmt
+        run: make -C Definite_integral check_fmt
 
       - name: Upload test results (optional)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: test_definite_integral
+          path: Definite_integral/test_definite_integral
