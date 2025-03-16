@@ -4,8 +4,8 @@ on:
   pull_request:
     branches:
       - main
- 
-jobs: 
+
+jobs:
   build:
     runs-on: ubuntu-latest
 
@@ -18,12 +18,15 @@ jobs:
 
       - name: Build project
         run: |
-          find . -mindepth 2 -name 'Makefile' -execdir make all \;
+          cd Array-basedStack
+          make all
 
       - name: Run tests
         run: |
+          cd Array-basedStack
           make test
 
       - name: Check format
         run: |
+          cd Array-basedStack
           make check_fmt
