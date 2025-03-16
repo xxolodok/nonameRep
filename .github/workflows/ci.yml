@@ -24,10 +24,3 @@ jobs:
 
       - name: Check format
         run: make check_fmt
-
-      - name: Upload test results (optional)
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: test_definite_integral
