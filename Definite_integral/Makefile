@@ -9,26 +9,26 @@ TESTSOURCE = test_definite_integral.c
 HEADERS = definite_integral.h
 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+  $(CC) $(CFLAGS) -c $< -o $@
 
 lib$(LIBNAME).a: $(LIBOBJS)
-	ar rcs $@ $^ 
+  ar rcs $@ $^ 
 
 $(TARGET): $(TESTOBJS) lib$(LIBNAME).a
-	$(CC) $(CFLAGS) $(TESTOBJS) -L. -l$(LIBNAME) -lm -o $@
+  $(CC) $(CFLAGS) $(TESTOBJS) -L. -l$(LIBNAME) -lm -o $@
 
 all: $(TARGET)
 
 run: $(TARGET)
-	./$(TARGET)
+  ./$(TARGET)
 
 clean:
-	rm -f $(LIBOBJS) $(TESTOBJS) lib$(LIBNAME).a $(TARGET)
+  rm -f $(LIBOBJS) $(TESTOBJS) lib$(LIBNAME).a $(TARGET)
 
 rebuild: clean all
 
 test: $(TARGET)
-	./$(TARGET)
+  ./$(TARGET)
 
 check_fmt:
-	clang-format -n --style=Google *.c *.h
+  clang-format -n --style=Google *.c *.h
