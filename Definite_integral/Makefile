@@ -1,31 +1,21 @@
 TARGET = test_definite_integral
-
 LIBNAME = definiteintegral
-
-
 CC = gcc
-
-CFLAGS = -Wall -Wextra -g -std=c99
-
+CFLAGS = -Wall -Wextra -g -std=c99 -pedantic 
 LIBOBJS = definite_integral.o
 TESTOBJS = test_definite_integral.o
-
 LIBSOURCE = definite_integral.c
 TESTSOURCE = test_definite_integral.c
-
 HEADERS = definite_integral.h
 
-$(LIBOBJS): $(LIBSOURCE) $(HEADERS)
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 lib$(LIBNAME).a: $(LIBOBJS)
-	ar rcs lib$(LIBNAME).a $(LIBOBJS)
-
-$(TESTOBJS): $(TESTSOURCE) $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+	ar rcs $@ $^ 
 
 $(TARGET): $(TESTOBJS) lib$(LIBNAME).a
-	$(CC) $(CFLAGS) $(TESTOBJS) -L. -l$(LIBNAME) -lm -o $(TARGET)
+	$(CC) $(CFLAGS) $(TESTOBJS) -L. -l$(LIBNAME) -lm -o $@
 
 all: $(TARGET)
 
@@ -36,3 +26,9 @@ clean:
 	rm -f $(LIBOBJS) $(TESTOBJS) lib$(LIBNAME).a $(TARGET)
 
 rebuild: clean all
+
+test: $(TARGET)
+	./$(TARGET)
+
+check_fmt:
+	clang-format -n --style=Google *.c *.h
