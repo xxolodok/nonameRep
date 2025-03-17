@@ -28,5 +28,8 @@ $(TEST_BIN): $(LIB) $(TEST_OBJ)
 test: $(TEST_BIN)
 	./$(TEST_BIN)
 
+check_fmt:
+	clang-format -i $(SRC) $(TEST_SRC) $(OBJ)
+
 clean:
 	rm -f $(OBJ) $(TEST_OBJ) $(TEST_BIN) $(LIB)
