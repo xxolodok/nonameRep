@@ -2,10 +2,9 @@ CC=gcc
 CFLAGS=-Wall -Werror
 TEST_FLAGS=-lcheck
 
-SRC=definite_integral.c test_definite_integral.c
+SRC=definite_integral.c
 OBJ=$(SRC:.c=.o)
 EXEC=definite_integral
-TEST_EXEC=test_definite_integral
 
 all: $(EXEC)
 
@@ -15,9 +14,9 @@ $(EXEC): $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
-test: $(OBJ)
-	gcc $(OBJ) -o $(TEST_EXEC) test_definite_integral.c $(TEST_FLAGS)
-	./$(TEST_EXEC)
+test: $(EXEC)
+	$(CC) $(OBJ) test_definite_integral.c -o test_definite_integral $(TEST_FLAGS)
+	./test_definite_integral
 
 clean:
-	rm -f *.o $(EXEC) $(TEST_EXEC)
+	rm -f *.o $(EXEC) test_definite_integral
