@@ -13,21 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up dependencies
+      - name: Set up GCC
         run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
 
       - name: Build project
-        run: make -C Definite_integral all
+        run: |
+          cd Definite_integral
+          make all
 
       - name: Run tests
-        run: make -C Definite_integral test
+        run: |
+          cd Definite_integral
+          make test
 
       - name: Check format
-        run: make -C Definite_integral check_fmt
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-results
-          path: Definite_integral/test_definite_integral
+        run: |
+          cd Definite_integral
+          make check_fmt
