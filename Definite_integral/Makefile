@@ -16,14 +16,14 @@ all: $(LIB) $(TEST_BIN)
 $(LIB): $(OBJ)
 	$(AR) $(ARFLAGS) $@ $^
 
-$(TEST_OBJ): $(TEST_SRC) definite_integral.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
 $(OBJ): $(SRC) definite_integral.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TEST_BIN): $(TEST_OBJ) $(LIB)
-	$(CC) $(CFLAGS) $^ -L. -ldefinite_integral $(LDFLAGS) -o $@
+$(TEST_OBJ): $(TEST_SRC) definite_integral.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TEST_BIN): $(LIB) $(TEST_OBJ)
+	$(CC) $(CFLAGS) $(TEST_OBJ) $(LIB) $(LDFLAGS) -o $@
 
 test: $(TEST_BIN)
 	./$(TEST_BIN)
