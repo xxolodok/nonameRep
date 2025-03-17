@@ -4,26 +4,30 @@ on:
   pull_request:
     branches:
       - main
- 
-jobs: 
+
+jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up GCC
-        run: sudo apt-get install -y build-essential
+      - name: Set up dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
 
       - name: Build project
-        run: |
-          find . -mindepth 2 -name 'Makefile' -execdir make all \;
+        run: make -C Definite_integral all
 
       - name: Run tests
-        run: |
-          make test
+        run: make -C Definite_integral test
 
       - name: Check format
-        run: |
-          make check_fmt
+        run: make -C Definite_integral check_fmt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: Definite_integral/test_definite_integral
