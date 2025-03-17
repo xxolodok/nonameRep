@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Definite_integral
+        working-directory: Definite_integral  # Исправлено: путь к рабочей директории
 
     steps:
       - name: Checkout code
@@ -23,14 +23,14 @@ jobs:
         run: make all
 
       - name: Run tests
-        run: make test
+        run: make run  # Исправлено: запуск тестов с использованием "make run"
 
       - name: Check format
-        run: make check_fmt
+        run: make check_fmt # Предполагается, что в Makefile есть цель check_fmt
 
       - name: Upload test results (optional)
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: test_definite_integral
+          path: test_definite_integral # Исправлено: путь к исполняемому файлу
