@@ -11,9 +11,7 @@ double constant_function(double x) {
     return 5.0;
 }
 
-
 void test_trapezoidalRule() {
-
     double lower_limit2 = 0.0;
     double upper_limit2 = 5.0;
     int num_trapezoids2 = 1000;
@@ -24,7 +22,6 @@ void test_trapezoidalRule() {
 
     assert(fabs(actual_result2 - expected_result2) < tolerance2);
     printf("Test passed (Constant function)!\n");
-
 }
 
 int main() {
