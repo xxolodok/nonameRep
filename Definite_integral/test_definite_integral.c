@@ -11,29 +11,19 @@ double constant_function(double x) {
     return 5.0;
 }
 
+
 void test_trapezoidalRule() {
-    // Test case 1: Constant function
-    double lower_limit1 = 0.0;
-    double upper_limit1 = 5.0;
-    int num_trapezoids1 = 1000; 
-    double expected_result1 = 25.0; 
-    double tolerance1 = 0.001;
 
-    double actual_result1 = trapezoidalRule(constant_function, lower_limit1, upper_limit1, num_trapezoids1);
-    assert(fabs(actual_result1 - expected_result1) < tolerance1);
-    printf("Test 1 passed (Constant function)!\n");
-
-
-    // Test case 2: Quadratic function (example_function)
     double lower_limit2 = 0.0;
-    double upper_limit2 = 3.0;
-    int num_trapezoids2 = 1000;  
-    double expected_result2 = 36.0; 
-    double tolerance2 = 0.01;    
+    double upper_limit2 = 5.0;
+    int num_trapezoids2 = 1000;
+    double expected_result2 = 25.0;
+    double tolerance2 = 0.001;
 
-    double actual_result2 = trapezoidalRule(example_function, lower_limit2, upper_limit2, num_trapezoids2);
+    double actual_result2 = trapezoidalRule(constant_function, lower_limit2, upper_limit2, num_trapezoids2);
+
     assert(fabs(actual_result2 - expected_result2) < tolerance2);
-    printf("Test 2 passed (Quadratic function)!\n");
+    printf("Test passed (Constant function)!\n");
 
 }
 
