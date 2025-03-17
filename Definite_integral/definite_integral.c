@@ -1,50 +1,41 @@
-#include "definite_integral.h"
 #include <stdio.h>
-#include <float.h>
-#include <math.h> 
+#include <math.h>
+#include <assert.h>
+#include "definite_integral.h"
 
-double trapezoidalRule(Func integrand, double lower_limit, double upper_limit, int num_trapezoids) {
-    double dx;
-    double integral_approximation = 0.0;
-    int num_intervals;
-    int i;
-    double eps = 1E-7;
+double example_function(double x) {
+    return -x * x + 9;
+}
 
-    if (!isfinite(lower_limit) || !isfinite(upper_limit)) {
-        fprintf(stderr, "Error: Limits of integration must be finite.\n");
-        return NAN;
-    }
+double constant_function(double x) {
+    return 5.0;
+}
 
-    if (upper_limit < lower_limit) {
-        fprintf(stderr, "Error: Upper limit must be greater than or equal to lower limit.\n");
-        return NAN;
-    }
+void test_trapezoidalRule() {
+    double lower_limit1 = 0.0;
+    double upper_limit1 = 5.0;
+    int num_trapezoids1 = 1000; 
+    double expected_result1 = 25.0; 
+    double tolerance1 = 0.001;
 
-    dx = fabs(upper_limit - lower_limit) / num_trapezoids;
+    double actual_result1 = trapezoidalRule(constant_function, lower_limit1, upper_limit1, num_trapezoids1);
+    printf("Test 1: Expected = %lf, Actual = %lf, Difference = %lf\n", expected_result1, actual_result1, fabs(actual_result1 - expected_result1));
+    assert(fabs(actual_result1 - expected_result1) < tolerance1);
+    printf("Test 1 passed (Constant function)!\n");
 
-    if (num_trapezoids <= 0) {
-        fprintf(stderr, "Error: Number of trapezoids must be positive.\n");
-        return NAN;
-    }
-    
-    if (fabs(upper_limit - lower_limit) < eps) {
-        return 0.0;
-    }
+    double lower_limit2 = 0.0;
+    double upper_limit2 = 3.0;
+    int num_trapezoids2 = 1000;  
+    double expected_result2 = 36.0; 
+    double tolerance2 = 0.01;    
 
-    num_intervals = (int)round(fabs(upper_limit - lower_limit) / dx);
+    double actual_result2 = trapezoidalRule(example_function, lower_limit2, upper_limit2, num_trapezoids2);
+    printf("Test 2: Expected = %lf, Actual = %lf, Difference = %lf\n", expected_result2, actual_result2, fabs(actual_result2 - expected_result2));
+    assert(fabs(actual_result2 - expected_result2) < tolerance2);
+    printf("Test 2 passed (Quadratic function)!\n");
+}
 
-    if (num_intervals <= 0) {
-      fprintf(stderr, "Error: Number of trapezoids is too large, resulting in zero intervals.\n");
-      return NAN;
-    }
-
-
-    integral_approximation = (integrand(lower_limit) + integrand(upper_limit)) / 2.0;
-
-    for (i = 1; i < num_trapezoids; i++) {
-        integral_approximation += integrand(lower_limit + i * dx);
-    }
-
-    integral_approximation = integral_approximation * dx;
-    return integral_approximation;
+int main() {
+    test_trapezoidalRule();
+    return 0;
 }
