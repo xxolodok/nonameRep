@@ -2,6 +2,7 @@
 #define DEFINITE_INTEGRAL_H
 
 #include <math.h>
+#include <stdbool.h>
 
 typedef double (*Func)(double);
 
