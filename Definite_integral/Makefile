@@ -1,35 +1,22 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -g -std=c99 -pedantic
-LDFLAGS = -lm
-AR = ar
-ARFLAGS = rcs
+CC=gcc
+CFLAGS=-Wall -Werror
+TEST_FLAGS=-lcheck
 
-SRC = definite_integral.c
-OBJ = definite_integral.o
-LIB = libdefinite_integral.a
-TEST_SRC = test_definite_integral.c
-TEST_OBJ = test_definite_integral.o
-TEST_BIN = test_definite_integral
+SRC=definite_integral.c
+OBJ=$(SRC:.c=.o)
+EXEC=definite_integral
 
-all: $(LIB) $(TEST_BIN)
+all: $(EXEC)
 
-$(LIB): $(OBJ)
-	$(AR) $(ARFLAGS) $@ $^
+$(EXEC): $(OBJ)
+    $(CC) $(OBJ) -o $(EXEC)
 
-$(OBJ): $(SRC) definite_integral.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c
+    $(CC) $(CFLAGS) -c $<
 
-$(TEST_OBJ): $(TEST_SRC) definite_integral.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TEST_BIN): $(LIB) $(TEST_OBJ)
-	$(CC) $(CFLAGS) $(TEST_OBJ) $(LIB) $(LDFLAGS) -o $@
-
-test: $(TEST_BIN)
-	./$(TEST_BIN)
-
-check_fmt:
-	clang-format -i $(SRC) $(TEST_SRC) $(OBJ)
+test: $(EXEC)
+    gcc $(EXEC) -o test_definite_integral test_definite_integral.c $(TEST_FLAGS)
+    ./test_definite_integral
 
 clean:
-	rm -f $(OBJ) $(TEST_OBJ) $(TEST_BIN) $(LIB)
+    rm -f *.o $(EXEC) test_definite_integral
