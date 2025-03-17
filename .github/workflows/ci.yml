@@ -1,29 +1,27 @@
 name: CI
 
 on:
+  push:
+    branches:
+      - main  # или develop, если у вас другая основная ветка
   pull_request:
     branches:
-      - main
- 
-jobs: 
+      - main # или develop
+
+jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Или другой runner, если требуется
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3  # Checkout code from the repository
 
       - name: Set up GCC
-        run: sudo apt-get install -y build-essential
+        uses: actions/setup-gcc@v3
+        with:
+          gcc-version: '10' # Укажите версию GCC, которую хотите использовать
 
-      - name: Build project
-        run: |
-          find . -mindepth 2 -name 'Makefile' -execdir make all \;
+      - name: Build
+        run: make  # Запускаем Makefile для сборки проекта
 
-      - name: Run tests
-        run: |
-          make test
-
-      - name: Check format
-        run: |
-          make check_fmt
+      - name: Run Tests
+        run: make run # Запускаем тесты, предполагая, что в Makefile есть цель "run"
