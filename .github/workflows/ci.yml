@@ -1,29 +1,27 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
 
-jobs:
+jobs: 
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up GCC
         run: sudo apt-get install -y build-essential
 
       - name: Build project
         run: |
-          cd Array-basedStack
+          cd Linked_List
           make all
 
       - name: Run tests
         run: |
-          cd Array-basedStack
+          cd Linked_List
           make test
