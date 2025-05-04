@@ -18,7 +18,7 @@ void test_trapezoidalRule() {
     double expected_result2 = 25.0;
     double tolerance2 = 0.001;
 
-    double actual_result2 = trapezoidalRule(constant_function, lower_limit2, upper_limit2, num_trapezoids2);
+    double actual_result2 = calculateTrapezoidalRule(constant_function, lower_limit2, upper_limit2, num_trapezoids2);
 
     assert(fabs(actual_result2 - expected_result2) < tolerance2);
     printf("Test passed (Constant function)!\n");

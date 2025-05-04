@@ -6,6 +6,6 @@
 
 typedef double (*Func)(double);
 
-double trapezoidalRule(Func integrand, double lower_limit, double upper_limit, int num_trapezoids);
+double calculateTrapezoidalRule(Func integrand, double lower_limit, double upper_limit, int num_trapezoids);
 
 #endif
