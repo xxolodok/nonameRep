@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest # Или другой runner, если требуется
 
     steps:
-      - uses: actions/checkout@v3  # Checkout code from the repository
+      - uses: actions/checkout@v4  # Checkout code from the repository
 
       - name: Set up GCC
         uses: actions/setup-gcc@v3
         with:
-          gcc-version: '10' # Укажите версию GCC, которую хотите использовать
+          gcc-version: '12' # Укажите версию GCC, которую хотите использовать
 
       - name: Build
         run: make  # Запускаем Makefile для сборки проекта
