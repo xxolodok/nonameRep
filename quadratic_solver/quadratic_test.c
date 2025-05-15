@@ -2,7 +2,7 @@
 #include "quadratic.h"
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 void quadratic_sover_test() {
   long double eps = 1e-9;
