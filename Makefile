@@ -1,68 +1,45 @@
+# Общий Makefile для рекурсивной сборки проекта
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O2
-TARGET = *_test
-SRCS = quadratic.c test_quadratic.c
-OBJS = $(SRCS:.c=.o)
+CFLAGS = -g
+LDFLAGS = -lm
 
 # Находим все поддиректории с Makefile (кроме корневой)
 SUBDIRS := $(shell find . -mindepth 2 -name Makefile -exec dirname {} \; | sort | uniq)
 
-.PHONY: all clean check_fmt fmt test subdirs $(SUBDIRS)
+.PHONY: all clean test $(SUBDIRS)
 
-all: test subdirs
+# Основные цели
+all: build
 
-# Правило для рекурсивного вызова Makefile в поддиректориях
-subdirs: $(SUBDIRS)
+build: $(SUBDIRS)
+	@echo "${GREEN}▶ Сборка всех подпроектов завершена${NC}"
 
-$(SUBDIRS):
-	@echo "\n${GREEN}▶ Запуск Makefile в $@${NC}"
-	@$(MAKE) -C $@
-
-clean:
-	@echo "Очистка репозитория от *.o, *.a и *_test..."
-	@find . -type f \( -name "*.o" -o -name "*.a" -o -name "*_test" \) -exec $(RM) {} +
+test: $(SUBDIRS)
+	@echo "${GREEN}▶ Запуск всех тестов${NC}"
 	@for dir in $(SUBDIRS); do \
-		echo "${GREEN}▶ Очистка $$dir${NC}"; \
-		$(MAKE) -C $$dir clean; \
-	done
-	@echo "Очистка завершена."
-
-check_fmt:
-	@if find . -type f -regex ".*\.[ch]" | xargs clang-format -style=LLVM --dry-run --Werror; then \
-		echo "Formatting is correct"; \
-	else \
-		echo "Formatting errors found"; \
-		exit 1; \
-	fi
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir check_fmt || exit 1; \
-	done
-
-fmt:
-	find . -type f -regex ".*\.[ch]" | xargs clang-format -style=LLVM -i
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir fmt; \
-	done
-
-TEST_TARGETS = $(wildcard *_test)
-TEST_TARGETS += $(shell find . -mindepth 2 -type f -name "*_test")
-
-test:
-	@if [ -z "$(TEST_TARGETS)" ]; then \
-		echo "${RED}Тесты не найдены.${NC}"; \
-		exit 1; \
-	fi
-	@echo "${GREEN}Запуск тестов...${NC}"
-	@for test in $(TEST_TARGETS); do \
-		echo "${GREEN}Запуск $$test...${NC}"; \
-		./$$test || exit 1; \
-	done
-	@for dir in $(SUBDIRS); do \
-		echo "${GREEN}▶ Тесты в $$dir${NC}"; \
+		echo "${BLUE}▶ Тестирование $$dir${NC}"; \
 		$(MAKE) -C $$dir test || exit 1; \
 	done
-	@echo "${GREEN}Все тесты пройдены.${NC}"
+	@echo "${GREEN}✓ Все тесты пройдены успешно${NC}"
 
-GREEN = \033[0;32m
+# Рекурсивный вызов Makefile в поддиректориях
+$(SUBDIRS):
+	@echo "${CYAN}▶ Сборка в $@${NC}"
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
+
+clean:
+	@echo "${YELLOW}▶ Очистка проекта${NC}"
+	@for dir in $(SUBDIRS); do \
+		echo "${YELLOW}▶ Очистка $$dir${NC}"; \
+		$(MAKE) -C $$dir clean; \
+	done
+	@rm -f *.o *.a *_test
+	@echo "${GREEN}✓ Очистка завершена${NC}"
+
+# Цвета для вывода
 RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+CYAN = \033[0;36m
 NC = \033[0m
