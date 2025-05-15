@@ -1,28 +1,35 @@
-name: CI
+name: CI Pipeline
 
 on:
   push:
-    branches:
-      - main  # или develop, если у вас другая основная ветка
+    branches: [ main ]
   pull_request:
-    branches:
-      - main # или develop
+    branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest # Или другой runner, если требуется
-    permissions:
-      actions: read  # Необходимо для доступа к actions
-      contents: read # Необходимо для checkout
+  build-and-test:
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up GCC
-        run: sudo apt-get install -y build-essential
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            make \
+            clang-format
 
-      - name: Build
-        run: make  # Запускаем Makefile для сборки проекта
+      - name: Check formatting
+        run: make check_fmt
 
-      - name: Run Tests
-        run: make run # Запускаем тесты, предполагая, что в Makefile есть цель "run"
+      - name: Build project
+        run: make
+
+      - name: Run tests
+        run: make test
+
+      - name: Clean build
+        run: make clean
