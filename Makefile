@@ -4,7 +4,7 @@ TARGET = *_test
 SRCS = quadratic.c test_quadratic.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(TARGET)
+all: test
 
 RM = rm -rf
 
