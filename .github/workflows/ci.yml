@@ -1,20 +1,29 @@
-name: Stack CI
+name: CI
 
 on:
-
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Test stack
+      - name: Set up GCC
+        run: sudo apt-get install -y build-essential
+
+      - name: Build project
         run: |
-          cd task_7/array-based_stack
-          gcc -Wall -Wextra -Werror array-based_stack.c array-based_stack_test.c -o test
-          ./test
+          cd array-based_stack
+          make all
+
+      - name: Run tests
+        run: |
+          cd array-based_stack
+          make test
+
 
