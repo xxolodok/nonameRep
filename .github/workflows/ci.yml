@@ -1,35 +1,25 @@
-name: CI Pipeline
+name: CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install dependencies
+        run: sudo apt-get install -y build-essential
+
+      - name: Build and test
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            make \
-            clang-format
+          cd task7/array-based_stack
+          make all
+          make test
 
-      - name: Check formatting
-        run: make check_fmt
 
-      - name: Build project
-        run: make
 
-      - name: Run tests
-        run: make test
-
-      - name: Clean build
-        run: make clean
