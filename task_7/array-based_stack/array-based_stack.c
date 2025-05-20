@@ -41,3 +41,4 @@ void stack_free(struct Stack *stack) {
   stack->capacity = 0;
   stack->last_element = -1;
 }
+
