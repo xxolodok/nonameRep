@@ -1,37 +1,22 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main  # или develop, если у вас другая основная ветка
   pull_request:
-    branches:
-      - main # или develop
+    branches: [main]
+
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get install -y build-essential
-      - run: |
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y build-essential
+
+      - name: Build and test
+        run: |
           cd task_7/array-based_stack
           make all
           make test
-
-jobs:
-  build:
-    runs-on: ubuntu-latest # Или другой runner, если требуется
-
-    steps:
-      - uses: actions/checkout@v3  # Checkout code from the repository
-
-      - name: Set up GCC
-        uses: actions/setup-gcc@v3
-        with:
-          gcc-version: '10' # Укажите версию GCC, которую хотите использовать
-
-      - name: Build
-        run: make  # Запускаем Makefile для сборки проекта
-
-      - name: Run Tests
-        run: make run # Запускаем тесты, предполагая, что в Makefile есть цель "run"
