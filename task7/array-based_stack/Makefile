@@ -9,10 +9,7 @@ array-based_stack.o: array-based_stack.c array-based_stack.h
 array-based_stack_test.o: array-based_stack_test.c array-based_stack.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-array-based_stack.a: array-based_stack.o
-	ar rc $@ $^
-
-array-based_stack_test: array-based_stack_test.o array-based_stack.a
+array-based_stack_test: array-based_stack.o array-based_stack_test.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 test: array-based_stack_test
