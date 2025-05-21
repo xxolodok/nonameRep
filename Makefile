@@ -1,52 +1,73 @@
+# Компилятор и флаги
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -O2
-TARGET = *_test
-SRCS = quadratic.c test_quadratic.c
-OBJS = $(SRCS:.c=.o)
+TARGETS = $(wildcard *_test)
 
-all: $(TARGET)
-
+# Утилиты
 RM = rm -rf
+FIND = find . -type f
+CLANG_FORMAT = clang-format -style=LLVM
 
+# Цвета для вывода
+GREEN = \033[0;32m
+RED = \033[0;31m
+NC = \033[0m
 
+# Поиск всех Makefile в поддиректориях (исключая текущую)
+SUBDIR_MAKEFILES = $(shell find . -mindepth 2 -type f -name "Makefile")
+
+# Основная цель (сначала сборка в поддиректориях, затем текущая)
+all: build_subdirs $(TARGETS)
+
+build_subdirs:
+	@for mkfile in $(SUBDIR_MAKEFILES); do \
+		dir=$$(dirname $$mkfile); \
+		echo "${GREEN}▶ Сборка в $$dir${NC}"; \
+		$(MAKE) -C $$dir all || exit 1; \
+	done
+
+# Очистка проекта (рекурсивная)
 clean:
-	@echo "Очистка репозитория от *.o, *.a и *_test..."
-	@find . -type f \( -name "*.o" -o -name "*.a" -o -name "*_test" \) -exec $(RM) {} +
-	@echo "Очистка завершена."
+	@echo "${GREEN}Очистка рабочей директории...${NC}"
+	@$(FIND) \( -name "*.o" -o -name "*.a" -o -name "*_test" \) -exec $(RM) {} +
+	@for mkfile in $(SUBDIR_MAKEFILES); do \
+		dir=$$(dirname $$mkfile); \
+		echo "${GREEN}▶ Очистка $$dir${NC}"; \
+		$(MAKE) -C $$dir clean || exit 1; \
+	done
+	@echo "${GREEN}Очистка завершена.${NC}"
 
-.PHONY: clean
+# Вывод списка всех Makefile
+list_makefiles:
+	@echo "${GREEN}Найдены Makefile в поддиректориях:${NC}"
+	@for mkfile in $(SUBDIR_MAKEFILES); do \
+		echo "$$mkfile"; \
+	done
 
 check_fmt:
-	@if find . -type f -regex ".*\.[ch]" | xargs clang-format -style=LLVM --dry-run --Werror; then \
-		echo "Formatting is correct"; \
+	@echo "${GREEN}Проверка форматирования...${NC}"
+	@if $(FIND) -name "*.[ch]" | xargs $(CLANG_FORMAT) --dry-run --Werror; then \
+		echo "${GREEN}Форматирование корректно.${NC}"; \
 	else \
-		echo "Formatting errors found"; \
+		echo "${RED}Ошибки форматирования!${NC}"; \
 		exit 1; \
 	fi
 
 fmt:
-	find . -type f -regex ".*\.[ch]" | xargs clang-format -style=LLVM -i
+	@echo "${GREEN}Применение форматирования...${NC}"
+	@$(FIND) -name "*.[ch]" | xargs $(CLANG_FORMAT) -i
+	@echo "${GREEN}Готово.${NC}"
 
-TEST_TARGETS = $(wildcard *_test)
-
-GREEN = \033[0;32m
-RED = \033[0;31m
-NC = \033[0m 
-
-TEST_TARGETS = $(shell find . -type f -name "*_test")
-
-.PHONY: test 
-
-test:
-	@if [ -z "$(TEST_TARGETS)" ]; then \
+test: build_subdirs
+	@if [ -z "$(TARGETS)" ]; then \
 		echo "${RED}Тесты не найдены.${NC}"; \
 		exit 1; \
 	fi
 	@echo "${GREEN}Запуск тестов...${NC}"
-	@for test in $(TEST_TARGETS); do \
-		echo "${GREEN}Запуск $$test...${NC}"; \
+	@for test in $(TARGETS); do \
+		echo "${GREEN}▶ $$test${NC}"; \
 		./$$test || exit 1; \
 	done
-	@echo "${GREEN}Все тесты пройдены.${NC}"
+	@echo "${GREEN}✅ Все тесты пройдены.${NC}"
 
-.PHONY: all clean check_fmt fmt test
+.PHONY: all build_subdirs clean list_makefiles check_fmt fmt test
