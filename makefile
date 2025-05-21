@@ -8,6 +8,7 @@ all: $(TARGET)
 
 RM = rm -rf
 
+
 clean:
 	@echo "Очистка репозитория от *.o, *.a и *_test..."
 	@find . -type f \( -name "*.o" -o -name "*.a" -o -name "*_test" \) -exec $(RM) {} +
