@@ -17,7 +17,7 @@ NC = \033[0m
 SUBDIR_MAKEFILES = $(shell find . -mindepth 2 -type f -name "Makefile")
 
 # Основная цель (сначала сборка в поддиректориях, затем текущая)
-all: build_subdirs $(TARGETS)
+all: test
 
 build_subdirs:
 	@for mkfile in $(SUBDIR_MAKEFILES); do \
