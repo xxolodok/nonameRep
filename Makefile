@@ -17,7 +17,7 @@ NC = \033[0m
 SUBDIR_MAKEFILES = $(shell find . -mindepth 2 -type f -name "Makefile")
 
 # Основная цель (сначала сборка в поддиректориях, затем текущая)
-all: test
+all: build_subdirs $(TARGETS)
 
 build_subdirs:
 	@for mkfile in $(SUBDIR_MAKEFILES); do \
@@ -58,26 +58,31 @@ fmt:
 	@$(FIND) -name "*.[ch]" | xargs $(CLANG_FORMAT) -i
 	@echo "${GREEN}Готово.${NC}"
 
-# Запуск тестов в поддиректориях
+# Запуск тестов в поддиректориях (если есть цель test)
 test_subdirs:
 	@for mkfile in $(SUBDIR_MAKEFILES); do \
 		dir=$$(dirname $$mkfile); \
-		echo "${GREEN}▶ Тесты в $$dir${NC}"; \
-		$(MAKE) -C $$dir test || exit 1; \
+		echo "${GREEN}▶ Проверка тестов в $$dir${NC}"; \
+		if grep -q '^test:' $$mkfile; then \
+			echo "${GREEN}▶ Запуск тестов в $$dir${NC}"; \
+			$(MAKE) -C $$dir test || exit 1; \
+		else \
+			echo "${GREEN}▶ В $$dir нет цели test${NC}"; \
+		fi \
 	done
 
-# Основная цель тестирования (сначала сборка, затем тесты везде)
+# Основная цель тестирования
 test: build_subdirs test_subdirs
-	@if [ -z "$(TARGETS)" ]; then \
-		echo "${RED}Тесты не найдены в текущей директории.${NC}"; \
-	else \
+	@if [ -n "$(TARGETS)" ]; then \
 		echo "${GREEN}Запуск тестов в текущей директории...${NC}"; \
 		for test in $(TARGETS); do \
 			echo "${GREEN}▶ $$test${NC}"; \
 			./$$test || exit 1; \
 		done; \
 		echo "${GREEN}✅ Все тесты в текущей директории пройдены.${NC}"; \
+	else \
+		echo "${GREEN}В текущей директории нет тестов.${NC}"; \
 	fi
-	@echo "${GREEN}✅ Все тесты во всех директориях пройдены.${NC}"
+	@echo "${GREEN}✅ Все тесты проверены.${NC}"
 
 .PHONY: all build_subdirs clean list_makefiles check_fmt fmt test test_subdirs
