@@ -58,16 +58,26 @@ fmt:
 	@$(FIND) -name "*.[ch]" | xargs $(CLANG_FORMAT) -i
 	@echo "${GREEN}Готово.${NC}"
 
-test: build_subdirs
-	@if [ -z "$(TARGETS)" ]; then \
-		echo "${RED}Тесты не найдены.${NC}"; \
-		exit 1; \
-	fi
-	@echo "${GREEN}Запуск тестов...${NC}"
-	@for test in $(TARGETS); do \
-		echo "${GREEN}▶ $$test${NC}"; \
-		./$$test || exit 1; \
+# Запуск тестов в поддиректориях
+test_subdirs:
+	@for mkfile in $(SUBDIR_MAKEFILES); do \
+		dir=$$(dirname $$mkfile); \
+		echo "${GREEN}▶ Тесты в $$dir${NC}"; \
+		$(MAKE) -C $$dir test || exit 1; \
 	done
-	@echo "${GREEN}✅ Все тесты пройдены.${NC}"
 
-.PHONY: all build_subdirs clean list_makefiles check_fmt fmt test
+# Основная цель тестирования (сначала сборка, затем тесты везде)
+test: build_subdirs test_subdirs
+	@if [ -z "$(TARGETS)" ]; then \
+		echo "${RED}Тесты не найдены в текущей директории.${NC}"; \
+	else \
+		echo "${GREEN}Запуск тестов в текущей директории...${NC}"; \
+		for test in $(TARGETS); do \
+			echo "${GREEN}▶ $$test${NC}"; \
+			./$$test || exit 1; \
+		done; \
+		echo "${GREEN}✅ Все тесты в текущей директории пройдены.${NC}"; \
+	fi
+	@echo "${GREEN}✅ Все тесты во всех директориях пройдены.${NC}"
+
+.PHONY: all build_subdirs clean list_makefiles check_fmt fmt test test_subdirs
