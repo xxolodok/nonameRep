@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-LinearAllocator *linear_allocator_create(size_t size) {
+LinearAllocator *linear_allocator_init(size_t size) {
   LinearAllocator *allocator = malloc(sizeof(LinearAllocator));
   if (!allocator)
     return NULL;
@@ -37,7 +37,7 @@ void linear_reset(LinearAllocator *allocator) {
   }
 }
 
-void linear_allocator_destroy(LinearAllocator *allocator) {
+void linear_allocator_deinit(LinearAllocator *allocator) {
   if (allocator) {
     free(allocator->buffer);
     free(allocator);

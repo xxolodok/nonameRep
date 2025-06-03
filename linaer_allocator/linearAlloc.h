@@ -9,9 +9,9 @@ typedef struct {
   size_t offset;
 } LinearAllocator;
 
-LinearAllocator *linear_allocator_create(size_t size);
+LinearAllocator *linear_allocator_init(size_t size);
 void *linear_alloc(LinearAllocator *allocator, size_t size);
 void linear_reset(LinearAllocator *allocator);
-void linear_allocator_destroy(LinearAllocator *allocator);
+void linear_allocator_deinit(LinearAllocator *allocator);
 
 #endif
