@@ -40,7 +40,7 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
   long double sqrt_D = sqrt(D);
 
   long double x1, x2;
-  if (b >= 0) {
+  if (b >= eps) {
     x1 = (-b - sqrt_D) / (2 * a);
   } else {
     x1 = (-b + sqrt_D) / (2 * a);
@@ -51,7 +51,7 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
   roots[0] = round_to_n_decimal_places(x1, roundEps);
   roots[1] = round_to_n_decimal_places(x2, roundEps);
 
-  if (roots[0] > roots[1]) {
+  if ((roots[0] - roots[1]) > eps) {
     long double temp = roots[0];
     roots[0] = roots[1];
     roots[1] = temp;
