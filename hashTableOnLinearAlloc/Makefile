@@ -26,11 +26,11 @@ hashTable.o: hashTable.c hashTable.h
 hashTable.a: hashTable.o
 	ar rc hashTable.a hashTable.o
 
-hashTable_test.o: hashTable_test.c hashTable.h
+hashTable_test.o: hashTable_test.c hashTable.h linearAlloc.h
 	$(CC) $(CFLAGS) -c hashTable_test.c -o hashTable_test.o
 
-hashTable_test: hashTable_test.o hashTable.a fmt
-	$(CC) $(CFLAGS) -o hashTable_test hashTable_test.o hashTable.a $(LDFLAGS)
+hashTable_test: hashTable_test.o hashTable.a linearAlloc.a fmt
+	$(CC) $(CFLAGS) -o hashTable_test hashTable_test.o hashTable.a linearAlloc.a $(LDFLAGS)
 
 clean:
 	rm -f linearAlloc_test linearAlloc_test.o linearAlloc.o linearAlloc.a
