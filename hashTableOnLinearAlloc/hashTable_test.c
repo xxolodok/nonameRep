@@ -6,24 +6,24 @@
 
 #define MAX_KEY_LEN 32
 
-// Пример инициализации линейного аллокатора (реализуйте сами)
-void linear_allocator_init(LinearAllocator *allocator, size_t size);
-void linear_allocator_free(LinearAllocator *allocator);
-
 void test_hashtable_with_n_elements(size_t n) {
   printf("Test with %zu elements\n", n);
 
-  LinearAllocator allocator;
-  linear_allocator_init(&allocator, n * 64); // выделяем память с запасом
+  // Инициализация линейного аллокатора через функцию, которая возвращает указатель
+  LinearAllocator *allocator = linear_allocator_init(n * 64);
+  if (!allocator) {
+    printf("Failed to initialize linear allocator\n");
+    return;
+  }
 
   HashTable table;
-  hashtable_init(&table, n * 2,
-                 &allocator); // емкость в 2 раза больше для снижения коллизий
+  hashtable_init(&table, n * 2, allocator); // емкость в 2 раза больше для снижения коллизий
 
   char key[MAX_KEY_LEN];
   int *values = malloc(n * sizeof(int));
   if (!values) {
     printf("Failed to allocate values array\n");
+    linear_allocator_free(allocator);
     return;
   }
 
@@ -71,7 +71,7 @@ void test_hashtable_with_n_elements(size_t n) {
   printf("Size after deletion: %zu, expected: %zu\n", table.size, n / 2);
 
   hashtable_free(&table);
-  linear_allocator_free(&allocator);
+  linear_allocator_free(allocator);
   free(values);
 
   printf("Test with %zu elements completed\n\n", n);
