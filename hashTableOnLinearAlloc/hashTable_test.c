@@ -5,7 +5,7 @@
 #include <string.h>
 
 void setup(LinearAllocator **allocator, HashTable *table, size_t capacity) {
-  *allocator = linear_allocator_init(1024 * 64); // например, 64 КБ
+  *allocator = linear_allocator_init(1024 * 64); 
   hashtable_init(table, capacity, *allocator);
 }
 
@@ -66,9 +66,6 @@ int main() {
   test_get_nonexistent_key(allocator, &table);
   test_collision_handling(allocator, &table);
 
-  printf("All tests passed successfully.\n");
-
-  // Освобождаем ресурсы
   hashtable_free(&table);
   linear_allocator_free(allocator);
 
