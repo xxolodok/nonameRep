@@ -9,7 +9,8 @@
 void test_hashtable_with_n_elements(size_t n) {
   printf("Test with %zu elements\n", n);
 
-  // Инициализация линейного аллокатора через функцию, которая возвращает указатель
+  // Инициализация линейного аллокатора через функцию, которая возвращает
+  // указатель
   LinearAllocator *allocator = linear_allocator_init(n * 64);
   if (!allocator) {
     printf("Failed to initialize linear allocator\n");
@@ -17,7 +18,8 @@ void test_hashtable_with_n_elements(size_t n) {
   }
 
   HashTable table;
-  hashtable_init(&table, n * 2, allocator); // емкость в 2 раза больше для снижения коллизий
+  hashtable_init(&table, n * 2,
+                 allocator); // емкость в 2 раза больше для снижения коллизий
 
   char key[MAX_KEY_LEN];
   int *values = malloc(n * sizeof(int));
