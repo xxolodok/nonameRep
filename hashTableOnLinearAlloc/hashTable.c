@@ -53,7 +53,7 @@ static int find_slot(HashTable *table, const char *key, size_t *out_index,
 
     if (!item->is_occupied) {
       if (for_insert) {
-        // Если нашли удалённый слот ранее, используем его
+
         if (first_deleted != -1) {
           *out_index = (size_t)first_deleted;
         } else {
@@ -61,21 +61,18 @@ static int find_slot(HashTable *table, const char *key, size_t *out_index,
         }
         return 1;
       } else {
-        // Для поиска - ключа нет
         return 0;
       }
     } else if (item->key && strcmp(item->key, key) == 0) {
-      // Ключ найден
       *out_index = index;
       return 1;
     }
 
     index = (index + 1) % table->capacity;
     if (index == start_index)
-      break; // Обошли всю таблицу
+      break; 
   }
 
-  // Если для вставки, но таблица полна
   if (for_insert && first_deleted != -1) {
     *out_index = (size_t)first_deleted;
     return 1;

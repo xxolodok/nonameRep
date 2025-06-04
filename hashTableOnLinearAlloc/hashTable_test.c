@@ -1,90 +1,78 @@
 #include "hashTable.h"
 #include "linearAlloc.h"
+#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#define MAX_KEY_LEN 32
+void setup(LinearAllocator **allocator, HashTable *table, size_t capacity) {
+    *allocator = linear_allocator_init(1024 * 64); // например, 64 КБ
+    hashtable_init(table, capacity, *allocator);
+}
 
-void test_hashtable_with_n_elements(size_t n) {
-  printf("Test with %zu elements\n", n);
 
-  // Инициализация линейного аллокатора через функцию, которая возвращает
-  // указатель
-  LinearAllocator *allocator = linear_allocator_init(n * 64);
-  if (!allocator) {
-    printf("Failed to initialize linear allocator\n");
-    return;
-  }
+void test_insert_and_get(LinearAllocator *allocator, HashTable *table) {
+  int val1 = 100;
+  int val2 = 200;
 
-  HashTable table;
-  hashtable_init(&table, n * 2,
-                 allocator); // емкость в 2 раза больше для снижения коллизий
+  hashtable_insert(table, "key1", &val1);
+  hashtable_insert(table, "key2", &val2);
 
-  char key[MAX_KEY_LEN];
-  int *values = malloc(n * sizeof(int));
-  if (!values) {
-    printf("Failed to allocate values array\n");
-    linear_allocator_free(allocator);
-    return;
-  }
+  assert(hashtable_get(table, "key1") == &val1);
+  assert(hashtable_get(table, "key2") == &val2);
+}
 
-  // Вставка элементов
-  for (size_t i = 0; i < n; i++) {
-    snprintf(key, sizeof(key), "key%zu", i);
-    values[i] = (int)i * 10;
-    hashtable_insert(&table, key, &values[i]);
-  }
+void test_update_value(LinearAllocator *allocator, HashTable *table) {
+  int val1 = 100;
+  int val2 = 200;
 
-  // Проверка получения элементов
-  for (size_t i = 0; i < n; i++) {
-    snprintf(key, sizeof(key), "key%zu", i);
-    int *val = (int *)hashtable_get(&table, key);
-    if (!val) {
-      printf("Error: key %s not found\n", key);
-    } else if (*val != (int)i * 10) {
-      printf("Error: key %s has wrong value %d, expected %d\n", key, *val,
-             (int)i * 10);
-    }
-  }
+  hashtable_insert(table, "key1", &val1);
+  hashtable_insert(table, "key1", &val2);
 
-  // Проверка удаления половины элементов
-  for (size_t i = 0; i < n; i += 2) {
-    snprintf(key, sizeof(key), "key%zu", i);
-    hashtable_del(&table, key);
-  }
+  assert(hashtable_get(table, "key1") == &val2);
+}
 
-  // Проверка после удаления
-  for (size_t i = 0; i < n; i++) {
-    snprintf(key, sizeof(key), "key%zu", i);
-    int *val = (int *)hashtable_get(&table, key);
-    if (i % 2 == 0) {
-      if (val != NULL) {
-        printf("Error: key %s should be deleted but found value %d\n", key,
-               *val);
-      }
-    } else {
-      if (!val || *val != (int)i * 10) {
-        printf("Error: key %s missing or wrong value after deletion\n", key);
-      }
-    }
-  }
+void test_delete_key(LinearAllocator *allocator, HashTable *table) {
+  int val1 = 100;
 
-  printf("Size after deletion: %zu, expected: %zu\n", table.size, n / 2);
+  hashtable_insert(table, "key1", &val1);
+  hashtable_del(table, "key1");
 
-  hashtable_free(&table);
-  linear_allocator_free(allocator);
-  free(values);
+  assert(hashtable_get(table, "key1") == NULL);
+}
 
-  printf("Test with %zu elements completed\n\n", n);
+void test_get_nonexistent_key(LinearAllocator *allocator, HashTable *table) {
+  assert(hashtable_get(table, "nonexistent") == NULL);
+}
+
+void test_collision_handling(LinearAllocator *allocator, HashTable *table) {
+  int val1 = 1;
+  int val2 = 2;
+
+  hashtable_insert(table, "keyA", &val1);
+  hashtable_insert(table, "keyB", &val2);
+
+  assert(hashtable_get(table, "keyA") == &val1);
+  assert(hashtable_get(table, "keyB") == &val2);
 }
 
 int main() {
-  // Тесты с разным количеством элементов
-  test_hashtable_with_n_elements(1);
-  test_hashtable_with_n_elements(10);
-  test_hashtable_with_n_elements(100);
-  test_hashtable_with_n_elements(1000);
+    LinearAllocator *allocator;
+    HashTable table;
 
-  return 0;
+    setup(&allocator, &table, 8);
+
+    test_insert_and_get(allocator, &table);
+    test_update_value(allocator, &table);
+    test_delete_key(allocator, &table);
+    test_get_nonexistent_key(allocator, &table);
+    test_collision_handling(allocator, &table);
+
+    printf("All tests passed successfully.\n");
+
+    // Освобождаем ресурсы
+    hashtable_free(&table);
+    linear_allocator_free(allocator);
+
+    return 0;
 }
+
