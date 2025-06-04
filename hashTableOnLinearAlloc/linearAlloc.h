@@ -13,5 +13,6 @@ LinearAllocator *linear_allocator_init(size_t size);
 void *linear_alloc(LinearAllocator *allocator, size_t size);
 void linear_reset(LinearAllocator *allocator);
 void linear_allocator_deinit(LinearAllocator *allocator);
+void linear_allocator_free(LinearAllocator *allocator);
 
 #endif
