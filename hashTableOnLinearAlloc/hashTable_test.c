@@ -1,5 +1,5 @@
-#include "linearAlloc.h"
 #include "hashTable.h"
+#include "linearAlloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
