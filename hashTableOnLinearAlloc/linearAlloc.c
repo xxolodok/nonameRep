@@ -42,11 +42,10 @@ void linear_allocator_deinit(LinearAllocator *allocator) {
     free(allocator->buffer);
     free(allocator);
   }
-  
 }
 void linear_allocator_free(LinearAllocator *allocator) {
   if (allocator) {
-      free(allocator->buffer);
-      free(allocator);
+    free(allocator->buffer);
+    free(allocator);
   }
 }
