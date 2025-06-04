@@ -5,10 +5,9 @@
 #include <string.h>
 
 void setup(LinearAllocator **allocator, HashTable *table, size_t capacity) {
-    *allocator = linear_allocator_init(1024 * 64); // например, 64 КБ
-    hashtable_init(table, capacity, *allocator);
+  *allocator = linear_allocator_init(1024 * 64); // например, 64 КБ
+  hashtable_init(table, capacity, *allocator);
 }
-
 
 void test_insert_and_get(LinearAllocator *allocator, HashTable *table) {
   int val1 = 100;
@@ -56,23 +55,22 @@ void test_collision_handling(LinearAllocator *allocator, HashTable *table) {
 }
 
 int main() {
-    LinearAllocator *allocator;
-    HashTable table;
+  LinearAllocator *allocator;
+  HashTable table;
 
-    setup(&allocator, &table, 8);
+  setup(&allocator, &table, 8);
 
-    test_insert_and_get(allocator, &table);
-    test_update_value(allocator, &table);
-    test_delete_key(allocator, &table);
-    test_get_nonexistent_key(allocator, &table);
-    test_collision_handling(allocator, &table);
+  test_insert_and_get(allocator, &table);
+  test_update_value(allocator, &table);
+  test_delete_key(allocator, &table);
+  test_get_nonexistent_key(allocator, &table);
+  test_collision_handling(allocator, &table);
 
-    printf("All tests passed successfully.\n");
+  printf("All tests passed successfully.\n");
 
-    // Освобождаем ресурсы
-    hashtable_free(&table);
-    linear_allocator_free(allocator);
+  // Освобождаем ресурсы
+  hashtable_free(&table);
+  linear_allocator_free(allocator);
 
-    return 0;
+  return 0;
 }
-

@@ -70,7 +70,7 @@ static int find_slot(HashTable *table, const char *key, size_t *out_index,
 
     index = (index + 1) % table->capacity;
     if (index == start_index)
-      break; 
+      break;
   }
 
   if (for_insert && first_deleted != -1) {
