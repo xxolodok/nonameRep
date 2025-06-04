@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g
 LDFLAGS = -lm
 
-all: linearAlloc_test hashTable_test
+all: linearAlloc_test
 
 fmt:
 	clang-format -style=LLVM -i `find -regex ".+\.[ch]"`
