@@ -5,7 +5,7 @@
 #include <string.h>
 
 void setup(LinearAllocator **allocator, HashTable *table, size_t capacity) {
-  *allocator = linear_allocator_init(1024 * 64); 
+  *allocator = linear_allocator_init(1024 * 64);
   hashtable_init(table, capacity, *allocator);
 }
 
