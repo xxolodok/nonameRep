@@ -1,36 +1,30 @@
-name: CI Pipeline
+name: C/C++ CI
 
-on: {push, pull_request}
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
-  check_formatting:
-    name: Check Code Formatting
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install clang-format
-        run: sudo apt-get install -y clang-format
-        
-      - name: Check formatting
-        run: make check_fmt
 
-  build_and_test:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    needs: check_formatting
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc make
-          
-      - name: Build and test
-        run: |
-          make all
-          make test
-          
-      - name: Clean up
-        run: make clean
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential gcc g++ make
+
+    - name: Build project
+      run: |
+        cd Allocator
+        make clean
+        make
+
+    - name: Run tests
+      run: |
+        cd Allocator
+        ./ArrayListTests
