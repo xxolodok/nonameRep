@@ -1,0 +1,7 @@
+*.o
+*.a
+test_mem_manager
+*.exe
+*.log
+*.swp
+.DS_Store
