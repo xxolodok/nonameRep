@@ -7,4 +7,3 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
 long double round_to_n_decimal_places(long double value, int n);
 
 #endif
-

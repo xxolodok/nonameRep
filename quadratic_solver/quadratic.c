@@ -58,4 +58,3 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
 
   return roots;
 }
-
