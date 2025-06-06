@@ -16,3 +16,4 @@ void linear_allocator_deinit(LinearAllocator *allocator);
 void linear_allocator_free(LinearAllocator *allocator);
 
 #endif
+
