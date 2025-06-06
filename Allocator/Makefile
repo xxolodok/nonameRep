@@ -8,11 +8,10 @@ OBJECTS = $(SOURCES:.c=.o)
 
 all: ArrayListTests
 
-ArrayListTests: $(OBJECTS)
- $(CC) $(LDFLAGS) $(OBJECTS) -o ArrayListTests
+ArrayListTests: $(OBJECTS)	
+	$(CC) $(LDFLAGS) $(OBJECTS) -o ArrayListTestsm	
+	%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@	
 
-%.o: %.c $(HEADERS)
- $(CC) $(CFLAGS) -c $< -o $@
-
-clean:
- rm -f $(OBJECTS) ArrayListTests
+clean:	
+	rm -f $(OBJECTS) ArrayListTests	
