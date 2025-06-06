@@ -6,7 +6,7 @@ all: quadratic_test
 
 quadratic.o: quadratic.c quadratic.h
 	$(CC) $(CFLAGS) -c quadratic.c -o quadratic.o
-files
+
 quadratic.a: quadratic.o
 	ar rc quadratic.a quadratic.o
 

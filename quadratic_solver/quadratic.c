@@ -45,7 +45,6 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
   } else {
     x1 = (-b + sqrt_D) / (2 * a);
   }
-
   x2 = c / (a * x1);
 
   roots[0] = round_to_n_decimal_places(x1, roundEps);

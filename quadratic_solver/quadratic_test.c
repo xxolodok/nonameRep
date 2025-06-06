@@ -34,7 +34,6 @@ void quadratic_sover_test4() {
   assert(roots == NULL); // null функция возвращает когда нет корней
   free(roots);
 }
-
 void quadratic_sover_test5() {
   long double eps = 1e-7;
   long double test_arg1 = -3e-4;
