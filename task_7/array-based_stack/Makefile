@@ -13,7 +13,7 @@ array-based_stack.a: array-based_stack.o
 	ar rc array-based_stack.a array-based_stack.o
 
 array-based_stack_test: array-based_stack.o array-based_stack_test.o array-based_stack.a
-    ${CC} ${CFLAGS} -o $@ array-based_stack_test.o array-based_stack.a
+	${CC} ${CFLAGS} -o $@ array-based_stack_test.o array-based_stack.a
 
 test: array-based_stack_test
 	./array-based_stack_test
@@ -28,3 +28,4 @@ check-format:
 	clang-format --dry-run --Werror *.c *.h
 
 .PHONY: all test clean
+
