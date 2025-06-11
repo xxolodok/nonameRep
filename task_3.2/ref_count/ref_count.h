@@ -5,8 +5,8 @@
 #include "pool_allocator.h"
 
 typedef struct {
-    size_t count;
-    void *object;
+	size_t count;
+	void *object;
 } ref_count_t;
 
 int ref_count_init(size_t pool_blocks);
