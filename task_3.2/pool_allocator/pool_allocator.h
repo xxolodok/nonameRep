@@ -5,10 +5,10 @@
 #include <stddef.h>
 
 typedef struct PoolAllocator {
-	size_t block_size;
-	size_t num_blocks;
-	void *memory_pool;
-	void *free_list;
+  size_t block_size;
+  size_t num_blocks;
+  void *memory_pool;
+  void *free_list;
 } PoolAllocator;
 
 int pool_init(PoolAllocator *allocator, size_t block_size, size_t num_blocks);
