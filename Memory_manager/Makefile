@@ -12,7 +12,7 @@ TEST_EXE=test_mem_manager
 
 .PHONY: all clean test
 
-all: $(LIBNAME) $(TEST_EXE) test
+all: $(LIBNAME) $(TEST_EXE)
 
 $(LIBNAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
