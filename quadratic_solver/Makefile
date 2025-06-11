@@ -20,4 +20,3 @@ clean:
 	rm -f quadratic_test quadratic_test.o quadratic.o quadratic.a
 
 .PHONY: all clean
-
