@@ -101,11 +101,13 @@ void hashtable_insert(HashTable *table, const char *key, void *value) {
 
   size_t key_len = strlen(key) + 1;
   char *key_copy = linear_alloc(table->allocator, key_len);
-  if (!key_copy)
+  if (!key_copy) {
+    item->key = NULL;
+    item->value = NULL;
     return;
+  }
 
   memcpy(key_copy, key, key_len);
-
   item->key = key_copy;
   item->value = value;
   item->is_occupied = 1;
