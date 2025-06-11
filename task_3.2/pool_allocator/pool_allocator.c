@@ -66,4 +66,3 @@ void pool_destroy(PoolAllocator *allocator) {
   allocator->memory_pool = NULL;
   allocator->free_list = NULL;
 }
-

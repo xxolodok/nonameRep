@@ -80,4 +80,3 @@ int ref_count_release(ref_count_t *ref) {
 
   return 0;
 }
-
