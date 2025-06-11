@@ -24,7 +24,7 @@ clean:
 format:
 	clang-format -i *.c *.h
 
-check-format:
+check_fmt:
 	clang-format --dry-run --Werror *.c *.h
 
-.PHONY: all test clean format check-format
+.PHONY: all test clean format check_fmt
