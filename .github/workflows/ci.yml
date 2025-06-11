@@ -1,6 +1,6 @@
 name: CI Pipeline
 
-on: {push, pull_request}
+on: [push, pull_request]
 
 jobs:
   check_formatting:
@@ -25,12 +25,16 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc make
+          sudo apt-get install -y gcc make valgrind
           
-      - name: Build and test
-        run: |
-          make all
-          make test
+      - name: Build
+        run: make all
+          
+      - name: Run tests
+        run: make test
+        
+      - name: Memory check with Valgrind
+        run: make valgrind
           
       - name: Clean up
         run: make clean
