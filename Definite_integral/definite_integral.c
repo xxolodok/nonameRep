@@ -3,9 +3,12 @@
 #include <float.h>
 #include <math.h>
 
-double calculateTrapezoidalRule(Func integrand, double lower_limit, double upper_limit, int num_trapezoids) {
+double integrandFunc(double x) {
+    return x * x;
+}
+
+double calculateTrapezoidalRule(Func integrand, double lower_limit, double upper_limit, int num_trapezoids, double eps) {
     double dx = fabs(upper_limit - lower_limit) / num_trapezoids;
-    double eps = 1E-7;
     double integral_approximation = 0.0;
     double num_intervals;
     int i;
@@ -25,6 +28,14 @@ double calculateTrapezoidalRule(Func integrand, double lower_limit, double upper
         integral_approximation += integrand(lower_limit + i * dx);
     }
 
-    integral_approximation = integral_approximation * dx;
+    integral_approximation *= dx;
     return integral_approximation;
+}
+
+int main() {
+    double eps_value = 1E-7;
+    double result = calculateTrapezoidalRule(integrandFunc, 0.0, 1.0, 100, eps_value);
+
+    printf("Result: %f\n", result);
+    return 0;
 }
