@@ -5,14 +5,8 @@
 
 int sign(long double x) { return (x > 0) - (x < 0); }
 
-long double round_to_n_decimal_places(long double value, int n) {
-  long double factor = pow(10, n);
-  return round(value * factor) / factor;
-}
-
 long double *FindRootsQuadraticSolver(long double a, long double b,
-                                      long double c, long double eps,
-                                      int roundEps) {
+                                      long double c, long double eps) {
   long double *roots = (long double *)malloc(2 * sizeof(long double));
   if (roots == NULL) {
     return NULL;
@@ -32,7 +26,7 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
 
   if (fabs(D) <= eps) {
     long double root = -b / (2 * a);
-    roots[0] = round_to_n_decimal_places(root, roundEps);
+    roots[0] = root;
     roots[1] = roots[0];
     return roots;
   }
@@ -47,8 +41,8 @@ long double *FindRootsQuadraticSolver(long double a, long double b,
   }
   x2 = c / (a * x1);
 
-  roots[0] = round_to_n_decimal_places(x1, roundEps);
-  roots[1] = round_to_n_decimal_places(x2, roundEps);
+  roots[0] = x1;
+  roots[1] = x2;
 
   if ((roots[0] - roots[1]) > eps) {
     long double temp = roots[0];
