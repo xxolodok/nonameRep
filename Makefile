@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O2 -g  # Добавлен -g для отладочной информации
+CFLAGS = -Wall -Wextra -std=c99 -O2 -g  
 TARGETS = $(wildcard *_test)
 
 RM = rm -rf
@@ -56,12 +56,9 @@ valgrind_subdirs:
 
 valgrind: build_subdirs valgrind_subdirs
 	@if [ -n "$(TARGETS)" ]; then \
-		echo "=== Running Valgrind checks ==="; \
 		for test in $(TARGETS); do \
-			echo "Checking $$test with Valgrind..."; \
 			$(VALGRIND) ./$$test || exit 1; \
 		done; \
-		echo "=== Valgrind checks passed ==="; \
 	fi
 
 .PHONY: all build_subdirs clean check_fmt fmt test test_subdirs valgrind valgrind_subdirs
