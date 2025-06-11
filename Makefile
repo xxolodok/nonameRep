@@ -29,19 +29,7 @@ check_fmt:
 fmt:
 	@$(FIND) -name "*.[ch]" | xargs $(CLANG_FORMAT) -i >/dev/null
 
-test_subdirs:
-	@for mkfile in $(SUBDIR_MAKEFILES); do \
-		dir=$$(dirname $$mkfile); \
-		if grep -q '^test:' $$mkfile; then \
-			$(MAKE) -C $$dir test || exit 1; \
-		fi \
-	done
-
-test: build_subdirs test_subdirs
-	@if [ -n "$(TARGETS)" ]; then \
-		for test in $(TARGETS); do \
-			./$$test || exit 1; \
-		done; \
-	fi
+test: build_subdirs
+	@find . -type f -name '*_test' -executable -exec {} \;
 
 .PHONY: all build_subdirs clean check_fmt fmt test test_subdirs
