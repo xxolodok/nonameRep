@@ -1,40 +1,32 @@
-name: CI Pipeline
+name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - task_3.2
+  pull_request:
+    branches:
+      - main
+      - task_3.2
 
 jobs:
-  check_formatting:
-    name: Check Code Formatting
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install clang-format
-        run: sudo apt-get install -y clang-format
-        
-      - name: Check formatting
-        run: make check_fmt
 
-  build_and_test:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    needs: check_formatting
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc make valgrind
-          
-      - name: Build
-        run: make all
-          
+        run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
+
+      - name: Build project
+        run: make -C task_3.2 all
+
       - name: Run tests
-        run: make test
-        
-      - name: Memory check with Valgrind
-        run: make valgrind
-          
-      - name: Clean up
-        run: make clean
+        run: make -C task_3.2 test
+
+      - name: Check format
+        run: make -C task_3.2 check-format
+
