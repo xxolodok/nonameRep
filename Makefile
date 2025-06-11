@@ -32,11 +32,12 @@ fmt:
 test_subdirs:
 	@for mkfile in $(SUBDIR_MAKEFILES); do \
 		dir=$$(dirname $$mkfile); \
-		if grep -q '^test:' $$mkfile; then \
-			$(MAKE) -C $$dir test || exit 1; \
-		fi \
+		targets=$$(grep -E '^[a-zA-Z0-9_-]+_test:' $$mkfile | cut -d: -f1); \
+		for target in $$targets; do \
+			echo "Running $$target in $$dir..."; \
+			$(MAKE) -C $$dir $$target || exit 1; \
+		done \
 	done
-
 test: build_subdirs test_subdirs
 	@if [ -n "$(TARGETS)" ]; then \
 		for test in $(TARGETS); do \
