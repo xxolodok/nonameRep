@@ -1,33 +1,30 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g -std=c11
-LDFLAGS =
+CFLAGS = -Wall -Wextra -g
 
-SOURCES = IAllocator.c ArrayList.c ArrayListTests.c
-HEADERS = IAllocator.h ArrayList.h
+SOURCES = ArrayList.c ArrayListTests.c IAllocator.c
+HEADERS = ArrayList.h IAllocator.h
 OBJECTS = $(SOURCES:.c=.o)
 
-CLANG_FORMAT = clang-format
-FORMAT_FILES = $(SOURCES) $(HEADERS)
+TARGET = arraylist_test
 
-.PHONY: all clean format check_fmt test
+all: $(TARGET)
 
-all: ArrayListTests
-
-ArrayListTests: $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+test: $(TARGET)
+	./$(TARGET)
+
 clean:
-	rm -f $(OBJECTS) ArrayListTests
+	rm -f $(OBJECTS) $(TARGET)
 
 format:
-	$(CLANG_FORMAT) -i $(FORMAT_FILES)
+	clang-format -i *.c *.h
 
-check_fmt:
-	@echo "Checking code format..."
-	@$(CLANG_FORMAT) --dry-run --Werror $(FORMAT_FILES)
+check-format:
+	clang-format --dry-run --Werror *.c *.h
 
-test: ArrayListTests
-	./ArrayListTests
+.PHONY: all test clean format check-format
