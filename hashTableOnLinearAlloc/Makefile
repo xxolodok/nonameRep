@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g
 LDFLAGS = -lm
 
-all: linearAlloc_test hashTable_test
+all: hashTable_test
 
 fmt:
 	clang-format -style=LLVM -i `find -regex ".+\.[ch]"`
@@ -12,13 +12,6 @@ linearAlloc.o: linearAlloc.c linearAlloc.h
 
 linearAlloc.a: linearAlloc.o
 	ar rc linearAlloc.a linearAlloc.o
-
-linearAlloc_test.o: linearAlloc_test.c linearAlloc.h
-	$(CC) $(CFLAGS) -c linearAlloc_test.c -o linearAlloc_test.o
-
-linearAlloc_test: linearAlloc_test.o linearAlloc.a fmt
-	$(CC) $(CFLAGS) -o linearAlloc_test linearAlloc_test.o linearAlloc.a $(LDFLAGS)
-
 
 hashTable.o: hashTable.c hashTable.h
 	$(CC) $(CFLAGS) -c hashTable.c -o hashTable.o
