@@ -10,7 +10,7 @@ OBJS=$(SRCS:.c=.o)
 TEST_SRCS=test_mem_manager.c
 TEST_EXE=test_mem_manager
 
-.PHONY: all clean test
+.PHONY: all clean test install
 
 all: $(LIBNAME) $(TEST_EXE)
 
@@ -28,3 +28,6 @@ clean:
 
 test: $(TEST_EXE)
 	./$(TEST_EXE) | tee test.log
+
+install:
+	sudo apt update && sudo apt install -y make
