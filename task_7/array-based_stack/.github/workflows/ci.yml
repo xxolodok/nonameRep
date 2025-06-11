@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - task_7
   pull_request:
     branches:
       - main
+      - task_7
 
 jobs:
   build:
@@ -19,12 +21,11 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
 
-      - name: Build project
-        run: make -C task_7/array-based_stack all
+      - name: Build
+        run: make all
 
-      - name: Run tests
-        run: make -C task_7/array-based_stack test
+      - name: Test
+        run: make test
 
-      - name: Check format
-        run: make -C task_7/array-based_stack check-format
-
+      - name: Check formatting
+        run: clang-format --dry-run --Werror task_7/array-based_stack/*.c task_7/array-based_stack/*.h
