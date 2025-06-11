@@ -1,12 +1,11 @@
+#include "definite_integral.h"
+#include <assert.h>
+#include <math.h>
 #include <stdio.h>
 
-double example_function(double x) {
-  return -x * x + 9;
-}
+double example_function(double x) { return -x * x + 9; }
 
-double constant_function(double x) {
-  return 5.0;
-}
+double constant_function(double x) { return 5.0; }
 
 void test_trapezoidalRule() {
   double lower_limit2 = 0.0;
@@ -16,13 +15,9 @@ void test_trapezoidalRule() {
   double tolerance2 = 0.001;
   double eps_value = 1E-7;
 
-  double actual_result2 = calculateTrapezoidalRule(constant_function, lower_limit2, 
-                                                   upper_limit2, num_trapezoids2, eps_value);
+  double actual_result2 =
+      calculateTrapezoidalRule(constant_function, lower_limit2, upper_limit2,
+                               num_trapezoids2, eps_value);
 
   assert(fabs(actual_result2 - expected_result2) < tolerance2);
-}
-
-int main() {
-  test_trapezoidalRule();
-  return 0;
 }

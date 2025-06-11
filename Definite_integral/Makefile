@@ -13,7 +13,7 @@ definite_integral.a: definite_integral.o
 	ar rc definite_integral.a definite_integral.o
 
 test_definite_integral: test_definite_integral.o definite_integral.a
-	${CC} ${CFLAGS} -o test_definite_integral test_definite_integral.o definite_integral.a
+	${CC} ${CFLAGS} -o test_definite_integral test_definite_integral.o definite_integral.a -lm
 
 test: test_definite_integral
 	./test_definite_integral
