@@ -20,4 +20,3 @@ clean:
 	rm -f linearAlloc_test linearAlloc_test.o linearAlloc.o linearAlloc.a
 
 .PHONY: all clean
-
