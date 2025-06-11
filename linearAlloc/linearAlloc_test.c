@@ -30,4 +30,3 @@ int main() {
   linear_allocator_deinit(allocator);
   return 0;
 }
-
