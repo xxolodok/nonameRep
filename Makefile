@@ -1,10 +1,12 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O2
+CFLAGS = -Wall -Wextra -std=c99 -O2 -g  # Добавлен -g для отладочной информации
 TARGETS = $(wildcard *_test)
 
 RM = rm -rf
 FIND = find . -type f
 CLANG_FORMAT = clang-format -style=LLVM
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all \
+                   --track-origins=yes --error-exitcode=1
 
 SUBDIR_MAKEFILES = $(shell find . -mindepth 2 -type f -name "Makefile")
 
@@ -44,4 +46,22 @@ test: build_subdirs test_subdirs
 		done; \
 	fi
 
-.PHONY: all build_subdirs clean check_fmt fmt test test_subdirs
+valgrind_subdirs:
+	@for mkfile in $(SUBDIR_MAKEFILES); do \
+		dir=$$(dirname $$mkfile); \
+		if grep -q '^valgrind:' $$mkfile; then \
+			$(MAKE) -C $$dir valgrind || exit 1; \
+		fi \
+	done
+
+valgrind: build_subdirs valgrind_subdirs
+	@if [ -n "$(TARGETS)" ]; then \
+		echo "=== Running Valgrind checks ==="; \
+		for test in $(TARGETS); do \
+			echo "Checking $$test with Valgrind..."; \
+			$(VALGRIND) ./$$test || exit 1; \
+		done; \
+		echo "=== Valgrind checks passed ==="; \
+	fi
+
+.PHONY: all build_subdirs clean check_fmt fmt test test_subdirs valgrind valgrind_subdirs
