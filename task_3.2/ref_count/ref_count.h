@@ -1,8 +1,8 @@
 #ifndef REF_COUNT_H
 #define REF_COUNT_H
 
-#include <stddef.h>
 #include "pool_allocator.h"
+#include <stddef.h>
 
 typedef struct {
   size_t count;
@@ -17,4 +17,3 @@ int ref_count_retain(ref_count_t *ref);
 int ref_count_release(ref_count_t *ref);
 
 #endif
-
