@@ -28,4 +28,3 @@ check-format:
 	clang-format --dry-run --Werror *.c *.h
 
 .PHONY: all test clean
-# ensure CI runs
