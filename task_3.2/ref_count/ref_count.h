@@ -17,3 +17,4 @@ int ref_count_retain(ref_count_t *ref);
 int ref_count_release(ref_count_t *ref);
 
 #endif
+

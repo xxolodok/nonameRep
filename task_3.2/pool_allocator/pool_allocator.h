@@ -17,3 +17,4 @@ int pool_free(PoolAllocator *allocator, void *ptr);
 void pool_destroy(PoolAllocator *allocator);
 
 #endif
+
