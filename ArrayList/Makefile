@@ -15,3 +15,4 @@ ArrayListTests: $(OBJECTS)
 
 clean: 
  rm -f $(OBJECTS) ArrayListTests
+ 
