@@ -10,21 +10,21 @@ TARGET = arraylist_test
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
+  $(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+  $(CC) $(CFLAGS) -c $< -o $@
 
 test: $(TARGET)
-	./$(TARGET)
+  ./$(TARGET)
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+  rm -f *.o $(TARGET)
 
 format:
-	clang-format -i *.c *.h
+  clang-format -i *.c *.h
 
 check_fmt:
-	clang-format --dry-run --Werror *.c *.h
+  clang-format --dry-run --Werror *.c *.h
 
 .PHONY: all test clean format check_fmt
