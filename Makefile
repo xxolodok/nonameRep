@@ -35,7 +35,7 @@ test_subdirs:
 		targets=$$(grep -E '^[a-zA-Z0-9_-]+_test:' $$mkfile | cut -d: -f1); \
 		for target in $$targets; do \
 			echo "Running $$target in $$dir..."; \
-			$(MAKE) -C $$dir $$target || exit 1; \
+			$(MAKE) -C $$dir -B $$target || exit 1; \
 		done \
 	done
 test: build_subdirs test_subdirs
