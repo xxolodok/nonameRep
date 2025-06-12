@@ -36,3 +36,4 @@ check_fmt:
 format:
 	@echo "Применение clang-format..."
 	@clang-format -i *.c *.h
+	
